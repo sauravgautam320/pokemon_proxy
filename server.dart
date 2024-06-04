@@ -2,12 +2,20 @@ import 'dart:io';
 import 'package:dart_frog/dart_frog.dart';
 import 'routes/index.dart' as api;
 
-Future<Response> onRequest(RequestContext context) async {
-  if (context.request.method == 'OPTIONS') {
-    return Response(statusCode: HttpStatus.noContent, headers: _corsHeaders);
-  }
-  final response = await api.onRequest(context);
-  return response.copyWith(headers: {...response.headers, ..._corsHeaders});
+// Middleware to handle CORS
+Handler corsMiddleware(Handler handler) {
+  return (context) async {
+    if (context.request.method == 'OPTIONS') {
+      return Response(statusCode: HttpStatus.noContent, headers: _corsHeaders);
+    }
+    final response = await handler(context);
+    return response.copyWith(
+      headers: {
+        ...response.headers,
+        ..._corsHeaders,
+      },
+    );
+  };
 }
 
 const _corsHeaders = {
@@ -17,7 +25,7 @@ const _corsHeaders = {
 };
 
 Future<HttpServer> runServer() {
-  final handler = api.onRequest;
+  final handler = corsMiddleware(api.onRequest);
   return serve(
     handler,
     InternetAddress.anyIPv4,
