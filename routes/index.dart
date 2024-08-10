@@ -23,7 +23,7 @@ Future<Response> onRequest(RequestContext context) async {
   }
 
   // Fetch from API if not in cache or expired
-  final apiResponse = await http.get(Uri.parse('https://pokeapi.co/api/v2/pokemon?limit=200'));
+  final apiResponse = await http.get(Uri.parse('https://pokeapi.co/api/v2/pokemon?limit=1032'));
   if (apiResponse.statusCode == 200) {
     final List pokemons = jsonDecode(apiResponse.body)['results'];
     final List<Map<String, dynamic>> detailedPokemons = [];
