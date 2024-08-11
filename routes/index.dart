@@ -16,8 +16,8 @@ class CachedResponse {
 Future<Response> onRequest(RequestContext context) async {
   // Get query parameters for pagination
   final queryParams = context.request.uri.queryParameters;
-  final limit = int.tryParse(queryParams['limit'] ?? '200') ??
-      50; // Default to 50 if not provided
+  final limit = int.tryParse(queryParams['limit'] ?? '400') ??
+      200; // Default to 50 if not provided
   final offset = int.tryParse(queryParams['offset'] ?? '0') ??
       0; // Default to 0 if not provided
 
