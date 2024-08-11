@@ -46,7 +46,7 @@ Future<Response> onRequest(RequestContext context) async {
             .toList();
 
         final moves = (jsonDetails['moves'] as List)
-            .take(10) // Take first 3 moves for simplicity
+            .take(20) // Take first 3 moves for simplicity
             .map((move) => move['move']['name'] as String)
             .toList();
 
